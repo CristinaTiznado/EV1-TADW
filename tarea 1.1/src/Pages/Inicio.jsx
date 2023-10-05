@@ -2,6 +2,7 @@ import {
     Button,
     Card,
     CardActions,
+    CardContent,
     Divider,
     Grid,
     Typography
@@ -34,34 +35,43 @@ export default function Inicio(){
         getDogs()
     }, [])
 
+
+
     const ArrepentidoDeRechazar = (valor) => {
 
         if (!ListaAceptados.includes(valor))
         {
-            setListaAceptados((ListaAceptados) => [...ListaAceptados,valor]);
-            quitar = ListaRechazados.filter((item) => item !==valor);
+            setListaAceptados((ListaAceptados) => [valor,...ListaAceptados]);
+            let quitar = ListaRechazados.filter((item) => item !==valor);
             setListaRechazados(quitar);
+            console.log(ListaRechazados)
         }
     }
 
     const ArrepentidoDeAceptarAmigaTeEntiendo = (valor) => {
-
+        console.log(!ListaRechazados.includes(valor))
         if (!ListaRechazados.includes(valor))
         {
-            setListaRechazados((ListaRechazados) => [...ListaRechazados,valor]);
-            quitar = ListaAceptados.filter((item) => item !==valor);
+            setListaRechazados((ListaRechazados) => [valor,...ListaRechazados]);
+            let quitar = ListaAceptados.filter((item) => item !==valor);
+            console.log("ELEMENTO QUITADO: ", quitar)
             setListaAceptados(quitar);
+            console.log("ACABO DE APLICAR EL SETLISTAACEPTADOS:",setListaAceptados(quitar))
+            console.log("LISTA ACEPTADOS: ",ListaAceptados)
         }
     }
 
     const AceptaPerros = (valor) => {
-        setListaAceptados((cualquiercosa) => [...cualquiercosa,valor]);
+        setListaAceptados((cualquiercosa) => [valor,...cualquiercosa]);
         console.log(ListaAceptados)
         getDogs()
     }
 
     const RechazaPerros = (valor) => {
-        setListaRechazados((ListaRechazados) => [...ListaRechazados,valor]);
+        setListaRechazados((ListaRechazados) => [valor,...ListaRechazados]);
+        console.log(ListaRechazados)
+        getDogs()
+
     }
 
     return(
@@ -74,7 +84,7 @@ export default function Inicio(){
                             <Button onClick={() => AceptaPerros(dog)}>
                                 aceptar
                             </Button>
-                            <Button>
+                            <Button onClick={() => RechazaPerros(dog)}>
                                 rechazar
                             </Button>
                         </CardActions>
@@ -87,24 +97,30 @@ export default function Inicio(){
                 <Grid item key = {index}>
                     <Card>
                         <DogCard props={cosa}/>
+                        <CardActions>
+                            <Button onClick={() => ArrepentidoDeAceptarAmigaTeEntiendo(cosa)} >MEARREPENTI</Button>
+                        </CardActions>
                     </Card>
                 </Grid>
               </>
             ))}
         </Grid>
 
-
-
-                <Grid item md={4} xs={6}>
+        <Grid>
+            {ListaRechazados.map((cosa, index) => (
+              <>
+                <Grid item key = {index}>
                     <Card>
-                        <DogCard props={ListaAceptados}/>
+                        <DogCard props={cosa}/>
+                        <CardActions>
+                            <Button onClick={() => ArrepentidoDeRechazar(cosa)} >MEARREPENTI</Button>
+                        </CardActions>
                     </Card>
                 </Grid>
-                <Grid item md={4} xs={6}>
-                    <Card>
-                        <DogCard props={ListaRechazados}/>
-                    </Card>
-                </Grid>
+              </>
+            ))}
+        </Grid>
+
             </Grid>
         </>
     )
