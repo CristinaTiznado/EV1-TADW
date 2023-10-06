@@ -109,7 +109,7 @@ function getNombreRandom() {
                 </Grid>
 
                 <Grid item md={4}>
-                    <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                    <div style={{ maxHeight: '446px', overflowY: 'auto' }}>
                         {ListaAceptados.map((cosa, index) => (
                         <Grid item key={index}>
                             <Card>
@@ -124,7 +124,7 @@ function getNombreRandom() {
                 </Grid>
 
                 <Grid item md={4}>
-                    <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                    <div style={{ maxHeight: '446px', overflowY: 'auto' }}>
                         {ListaRechazados.map((cosa, index) => (
                             <>
                                 <Grid item key = {index}>
