@@ -17,7 +17,7 @@ export default function Inicio() {
     const [ListaAceptados, setListaAceptados] = useState([])
     const [ListaRechazados, setListaRechazados] = useState([])
 
-    const getDogs = async () => {
+    /*const getDogs = async () => {
         const response = await fetch('https://dog.ceo/api/breeds/image/random')
         response.json().then((info) => {
             setDog({
@@ -26,7 +26,30 @@ export default function Inicio() {
                 descripcion: "super descripción"
             })
         })
+    }*/
+function getNombreRandom() {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let nombreRandom = '';
+    for (let i = 0; i < 6; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      nombreRandom += characters.charAt(randomIndex);
     }
+    return nombreRandom;
+  }
+  
+  const getDogs = async () => {
+    const responseDog = await fetch('https://dog.ceo/api/breeds/image/random');
+    const dogInfo = await responseDog.json();
+    const dogImage = dogInfo.message;
+    const nombreRandom = getNombreRandom
+();
+
+    setDog({
+      nombre: nombreRandom,
+      imagen: dogImage,
+      descripcion: "super descripción"
+    });
+  }
 
     const ArrepentidoDeRechazar = (valor) => {
         if (!ListaAceptados.includes(valor)){
@@ -85,34 +108,36 @@ export default function Inicio() {
                     </Card>
                 </Grid>
 
-                <Grid item md={4} >
-                    {ListaAceptados.map((cosa, index) => (
-                        <>
-                            <Grid item key = {index}>
-                                <Card>
-                                    <DogCard props={cosa}/>
-                                    <CardActions>
-                                        <Button onClick={() => ArrepentidoDeAceptarAmigaTeEntiendo(cosa)} >MEARREPENTI</Button>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        </>
-                    ))}                
+                <Grid item md={4}>
+                    <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                        {ListaAceptados.map((cosa, index) => (
+                        <Grid item key={index}>
+                            <Card>
+                            <DogCard props={cosa} />
+                            <CardActions>
+                                <Button onClick={() => ArrepentidoDeAceptarAmigaTeEntiendo(cosa)}>ME ARREPENTÍ</Button>
+                            </CardActions>
+                            </Card>
+                        </Grid>
+                        ))}
+                    </div>
                 </Grid>
 
                 <Grid item md={4}>
-                    {ListaRechazados.map((cosa, index) => (
-                        <>
-                            <Grid item key = {index}>
-                                <Card>
-                                    <DogCard props={cosa}/>
-                                    <CardActions>
-                                        <Button onClick={() => ArrepentidoDeRechazar(cosa)} >MEARREPENTI</Button>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        </>
-                    ))}
+                    <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                        {ListaRechazados.map((cosa, index) => (
+                            <>
+                                <Grid item key = {index}>
+                                    <Card>
+                                        <DogCard props={cosa}/>
+                                        <CardActions>
+                                            <Button onClick={() => ArrepentidoDeRechazar(cosa)} >MEARREPENTI</Button>
+                                        </CardActions>
+                                    </Card>
+                                </Grid>
+                            </>
+                        ))}
+                    </div>
                 </Grid>
             </Grid>
         </>
