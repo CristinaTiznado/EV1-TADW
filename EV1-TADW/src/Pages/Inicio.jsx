@@ -6,27 +6,47 @@ import {
     CardHeader,
     Divider,
     Grid,
-    Typography
+    Typography,
+    LinearProgress
 } from "@mui/material"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import DogCard from "../Components/DogCard"
 
+
 export default function Inicio() {
     const [dog, setDog] = useState({ nombre: '', imagen: '', descripcion: '' })
     const [ListaAceptados, setListaAceptados] = useState([])
     const [ListaRechazados, setListaRechazados] = useState([])
+    const [isLoading, setIsLoading] = useState(false)
+    const [LoadingMessage, setLoadingMessage] = useState("")
 
-    const getDogs = async () => {
-        const response = await fetch('https://dog.ceo/api/breeds/image/random')
-        response.json().then((info) => {
-            setDog({
-                nombre: "Perrito",
-                imagen: info.message,
-                descripcion: "super descripción"
-            })
-        })
-    }
+        
+    
+        const getDogs = async () => {
+            setIsLoading(true)
+            setLoadingMessage("CARGANDO PERRITO...")
+
+            try {
+                const response = await fetch('https://dog.ceo/api/breeds/image/random')
+                const info = await response.json()
+                
+               
+                    setDog({
+                        nombre: "Perrito",
+                        imagen: info.message,
+                        descripcion: "super descripción"
+                    })
+                    
+            } catch (error) {
+                
+            }finally{
+                setIsLoading(false)
+                setLoadingMessage("")
+
+            }
+
+        }
 
     const ArrepentidoDeRechazar = (valor) => {
         if (!ListaAceptados.includes(valor)){
@@ -75,10 +95,10 @@ export default function Inicio() {
                         </Typography>
                         <DogCard props={dog} />
                         <CardActions>
-                            <Button onClick={() => AceptaPerros(dog)}>
+                            <Button onClick={() => AceptaPerros(dog)} disabled={isLoading} >
                                 aceptar
                             </Button>
-                            <Button onClick={() => RechazaPerros(dog)}>
+                            <Button onClick={() => RechazaPerros(dog)} disabled={isLoading} >
                                 rechazar
                             </Button>
                         </CardActions>
@@ -115,6 +135,8 @@ export default function Inicio() {
                     ))}
                 </Grid>
             </Grid>
+            {isLoading && <LinearProgress/>}
+            {LoadingMessage && <p>{LoadingMessage}</p>}
         </>
     )
 }
