@@ -11,6 +11,7 @@ import {
 import axios from "axios"
 import { useEffect, useState } from "react"
 import DogCard from "../Components/DogCard"
+import { loremIpsum } from 'lorem-ipsum'
 
 export default function Inicio() {
     const [dog, setDog] = useState({ nombre: '', imagen: '', descripcion: '' })
@@ -23,7 +24,10 @@ export default function Inicio() {
             setDog({
                 nombre: "Perrito",
                 imagen: info.message,
-                descripcion: "super descripción"
+                descripcion: loremIpsum({
+                    count: 1, 
+                    units: "paragraphs", 
+                }),
             })
         })
     }
