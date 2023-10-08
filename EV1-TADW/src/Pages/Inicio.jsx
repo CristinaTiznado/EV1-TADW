@@ -6,6 +6,7 @@ import {
     CardContent,
     Divider,
     Grid,
+    LinearProgress,
     Typography
 } from "@mui/material"
 import { useEffect, useState } from "react"
@@ -33,12 +34,15 @@ export default function Inicio() {
     const [ListaRechazados, setListaRechazados] = useState([])
     const [expandedIndexAceptados, setExpandedIndexAceptados] = useState(null)
     const [expandedIndexRechazados, setExpandedIndexRechazados] = useState(null)
+    const [isLoading, setIsLoading] = useState(false)
+    const [LoadingMessage, setLoadingMessage] = useState("")
 
     const handleExpandClickAceptados = (index) => {
         if (expandedIndexAceptados === index) {
             setExpandedIndexAceptados(null);
         } else {
             setExpandedIndexAceptados(index);
+            setExpandedIndexRechazados(null)
         }
     };
 
@@ -47,21 +51,31 @@ export default function Inicio() {
             setExpandedIndexRechazados(null);
         } else {
             setExpandedIndexRechazados(index);
+            setExpandedIndexAceptados(null)
         }
     };
 
     const getDogs = async () => {
-        const response = await fetch('https://dog.ceo/api/breeds/image/random')
-        response.json().then((info) => {
-            setDog({
-                nombre: getNombreRandom(),
-                imagen: info.message,
-                descripcion: loremIpsum({
-                    count: 2,
-                    units: "sentences",
-                }),
+        setIsLoading(true)
+        setLoadingMessage("CARGANDO PERRITO...")
+        try {
+            const response = await fetch('https://dog.ceo/api/breeds/image/random')
+            response.json().then((info) => {
+                setDog({
+                    nombre: getNombreRandom(),
+                    imagen: info.message,
+                    descripcion: loremIpsum({
+                        count: 2,
+                        units: "sentences",
+                    }),
+                })
             })
-        })
+        } catch (error) {
+
+        } finally {
+            setIsLoading(false)
+            setLoadingMessage("")
+        }
     }
 
     function getNombreRandom() {
@@ -116,6 +130,8 @@ export default function Inicio() {
                     <Typography color={"black"} variant="h5" align="center">
                         T I N D E R
                     </Typography>
+                    {isLoading && <LinearProgress />}
+                    {LoadingMessage && <p>{LoadingMessage}</p>}
                     <Card
                         sx={{
                             transition: "0.2s",
@@ -128,14 +144,15 @@ export default function Inicio() {
                     >
                         <DogCard props={dog} tipo="principal" />
                         <CardActions >
-                            <Button variant="contained" onClick={() => AceptaPerros(dog)}>
+                            <Button variant="contained" onClick={() => AceptaPerros(dog)} disabled={isLoading}>
                                 ACEPTAR
                             </Button>
-                            <Button color="error" onClick={() => RechazaPerros(dog)}>
+                            <Button color="error" onClick={() => RechazaPerros(dog)} disabled={isLoading}>
                                 RECHAZAR
                             </Button>
                         </CardActions>
                     </Card>
+                    
                 </Grid>
 
                 <Grid item md={4} sm={12}>
@@ -214,6 +231,7 @@ export default function Inicio() {
                     </div>
                 </Grid>
             </Grid>
+
         </>
     )
 }
