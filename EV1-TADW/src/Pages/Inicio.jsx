@@ -1,16 +1,13 @@
 import React from "react"
 import {
-    Box,
     Button,
     Card,
     CardActions,
     CardContent,
-    CardHeader,
     Divider,
     Grid,
     Typography
 } from "@mui/material"
-import axios from "axios"
 import { useEffect, useState } from "react"
 import DogCard from "../Components/DogCard"
 import { loremIpsum } from 'lorem-ipsum'
@@ -82,7 +79,7 @@ export default function Inicio() {
             setListaAceptados((ListaAceptados) => [valor, ...ListaAceptados]);
             let quitar = ListaRechazados.filter((item) => item !== valor);
             setListaRechazados(quitar);
-            console.log(ListaRechazados)
+            setExpandedIndexRechazados(null)
         }
     }
 
@@ -91,10 +88,8 @@ export default function Inicio() {
         if (!ListaRechazados.includes(valor)) {
             setListaRechazados((ListaRechazados) => [valor, ...ListaRechazados]);
             let quitar = ListaAceptados.filter((item) => item !== valor);
-            console.log("ELEMENTO QUITADO: ", quitar)
             setListaAceptados(quitar);
-            console.log("ACABO DE APLICAR EL SETLISTAACEPTADOS:", setListaAceptados(quitar))
-            console.log("LISTA ACEPTADOS: ", ListaAceptados)
+            setExpandedIndexAceptados(null)
         }
     }
 
@@ -117,34 +112,48 @@ export default function Inicio() {
     return (
         <>
             <Grid container spacing={2} direction="row">
-                <Grid item md={4} >
+                <Grid item md={4} sm={12}>
                     <Typography color={"black"} variant="h5" align="center">
                         T I N D E R
                     </Typography>
-                    <Card >
+                    <Card
+                        sx={{
+                            transition: "0.2s",
+                            "&:hover": {
+                                transform: "scale(1.02)",
+                            },
+                            borderRadius: '10px',
+                            border: '1px solid #000',
+                        }}
+                    >
                         <DogCard props={dog} tipo="principal" />
-                        <CardActions>
-                            <Button onClick={() => AceptaPerros(dog)}>
-                                aceptar
+                        <CardActions >
+                            <Button variant="contained" onClick={() => AceptaPerros(dog)}>
+                                ACEPTAR
                             </Button>
-                            <Button onClick={() => RechazaPerros(dog)}>
-                                rechazar
+                            <Button color="error" onClick={() => RechazaPerros(dog)}>
+                                RECHAZAR
                             </Button>
                         </CardActions>
                     </Card>
                 </Grid>
 
-                <Grid item md={4} >
+                <Grid item md={4} sm={12}>
                     <Typography color={"black"} variant="h5" align="center">
                         A C E P T A D O S
                     </Typography>
                     <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
                         {ListaAceptados.map((cosa, index) => (
-                            <Grid item key={index} mb={5}>
-                                <Card>
+                            <Grid item key={index} >
+                                <Card
+                                    sx={{
+                                        borderRadius: '10px',
+                                        border: '1px solid #000',
+                                    }}
+                                >
                                     <DogCard props={cosa} tipo="secundario" />
-                                    <CardActions>
-                                        <Button onClick={() => ArrepentidoDeAceptarAmigaTeEntiendo(cosa)} >MEARREPENTI</Button>
+                                    <CardActions disableSpacing>
+                                        <Button color="error" onClick={() => ArrepentidoDeAceptarAmigaTeEntiendo(cosa)} >RECHAZAR</Button>
                                         <ExpandMore
                                             expand={expandedIndexAceptados === index}
                                             onClick={() => handleExpandClickAceptados(index)}
@@ -167,17 +176,22 @@ export default function Inicio() {
                     </div>
                 </Grid>
 
-                <Grid item md={4}>
+                <Grid item md={4} sm={12}>
                     <Typography color={"black"} variant="h5" align="center">
                         R E C H A Z A D O S
                     </Typography>
                     <div style={{ maxHeight: '600px', overflowY: 'auto' }}>
                         {ListaRechazados.map((cosa, index) => (
-                            <Grid item key={index} mb={5}>
-                                <Card>
+                            <Grid item key={index} >
+                                <Card
+                                    sx={{
+                                        borderRadius: '10px',
+                                        border: '1px solid #000',
+                                    }}
+                                >
                                     <DogCard props={cosa} tipo="terciario" />
-                                    <CardActions>
-                                        <Button onClick={() => ArrepentidoDeRechazar(cosa)} >MEARREPENTI</Button>
+                                    <CardActions disableSpacing>
+                                        <Button variant="contained" onClick={() => ArrepentidoDeRechazar(cosa)} >ACEPTAR</Button>
                                         <ExpandMore
                                             expand={expandedIndexRechazados === index}
                                             onClick={() => handleExpandClickRechazados(index)}

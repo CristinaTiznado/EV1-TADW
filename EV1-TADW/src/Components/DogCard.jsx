@@ -1,7 +1,6 @@
 import {
-    Card, CardContent, CardHeader, CardMedia, Typography
+    CardContent, CardMedia, Typography
 } from "@mui/material"
-import axios from "axios"
 
 export default function DogCard({ props, tipo }) {
     return (
@@ -12,7 +11,7 @@ export default function DogCard({ props, tipo }) {
                 image={props.imagen}
             />
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography gutterBottom variant="h5" component="div" textAlign={"center"} style={{ fontWeight: 'bold' }}>
                     {props.nombre}
                 </Typography>
                 {tipo === 'principal' ? (
