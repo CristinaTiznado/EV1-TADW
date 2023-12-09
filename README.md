@@ -2,6 +2,6 @@
 Integrantes:
 - Javiera Estrada
 - Bryan Ruiz
-- Cristina Tiznado
+- Cristina Tiznado 
 
 Estudiantes de Ingeniería Civil en Informática
