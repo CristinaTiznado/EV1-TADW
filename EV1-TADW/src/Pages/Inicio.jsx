@@ -6,8 +6,10 @@ import {
     CardContent,
     Divider,
     Grid,
+
     LinearProgress,
     Typography
+
 } from "@mui/material"
 import { useEffect, useState } from "react"
 import DogCard from "../Components/DogCard"
@@ -28,10 +30,12 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
+
 export default function Inicio() {
     const [dog, setDog] = useState({ nombre: '', imagen: '', descripcion: '' })
     const [ListaAceptados, setListaAceptados] = useState([])
     const [ListaRechazados, setListaRechazados] = useState([])
+
     const [expandedIndexAceptados, setExpandedIndexAceptados] = useState(null)
     const [expandedIndexRechazados, setExpandedIndexRechazados] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
@@ -88,6 +92,7 @@ export default function Inicio() {
         return nombreRandom;
     }
 
+
     const ArrepentidoDeRechazar = (valor) => {
         if (!ListaAceptados.includes(valor)) {
             setListaAceptados((ListaAceptados) => [valor, ...ListaAceptados]);
@@ -126,6 +131,7 @@ export default function Inicio() {
     return (
         <>
             <Grid container spacing={2} direction="row">
+
                 <Grid item md={4} sm={12}>
                     <Typography color={"black"} variant="h5" align="center">
                         T I N D E R
@@ -149,6 +155,7 @@ export default function Inicio() {
                             </Button>
                             <Button color="error" onClick={() => RechazaPerros(dog)} disabled={isLoading}>
                                 RECHAZAR
+
                             </Button>
                         </CardActions>
                     </Card>
@@ -231,6 +238,8 @@ export default function Inicio() {
                     </div>
                 </Grid>
             </Grid>
+
+
 
         </>
     )
