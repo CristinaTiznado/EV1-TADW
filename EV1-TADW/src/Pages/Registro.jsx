@@ -47,6 +47,9 @@ export default function Inicio() {
     const [descripcion, setdescripcion] = useState({descripcion: ''})
     const [perroSeleccionado, setPerroSeleccionado] = useState(null);
 
+    const [perros, setPerros] = useState([]);
+
+
     const handleNombreClick = (perro) => {
         setPerroSeleccionado(perro);
     };
@@ -138,14 +141,11 @@ const RegistrarPerro2 = async (nombre, descripcion) => {
         }
         } catch (error) {
         console.error("Error en la solicitud:", error);
-        } finally {
-            setNombre("");
-            setDescripcion("");
         }
     };
 
 {/*ESTA ES LA PARTE QUE MUESTRA LOS PERROS CREADOS*/}
-const ListaPerros = ({ perros }) => {
+const ListaPerros = () => {
     return (
     <List>
         {perros.map((perro, index) => (
@@ -159,6 +159,7 @@ const ListaPerros = ({ perros }) => {
     </List>
     );
 };
+
 
 const AceptaPerros2 = async (valor) => {
     try {
@@ -308,6 +309,16 @@ const RechazaPerros2 = async (valor) => {
         getDogs()
         obtenerFotoUnica()
     }, [])
+
+    useEffect(() => {
+        axios.get('http://localhost:8000/api/perros/todos')
+          .then(response => {
+            setPerros(response.data);
+          })
+          .catch(error => {
+            console.error('Error al obtener perros:', error);
+          });
+      }, []);
 
     return (
         <>
