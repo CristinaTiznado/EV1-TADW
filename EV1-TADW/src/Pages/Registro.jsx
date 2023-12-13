@@ -7,8 +7,15 @@ import {
     Divider,
     Grid,
     LinearProgress,
-    Typography
+    Typography,
+    TextField,
+    List,
+    ListItem,
+    ListItemAvatar,
+    Avatar,
+    ListItemText
 } from "@mui/material"
+
 import { useEffect, useState } from "react"
 import DogCard from "../Components/DogCard"
 import { loremIpsum } from 'lorem-ipsum'
@@ -17,6 +24,8 @@ import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import FotoCard from "../Components/FotoCard"
+
+
 
 import Swal from 'sweetalert2';
 import axios from "axios";
@@ -84,7 +93,7 @@ const obtenerFotoUnica = async () => {
     let fotoUnica = null;
 
     while (fotoUnica === null) {
-        const response = await axios.get('https://dog.ceo/api/breeds/image/random');
+        const response = await fetch('https://dog.ceo/api/breeds/image/random');
 
         try {
             const info = await response.json();
@@ -95,6 +104,7 @@ const obtenerFotoUnica = async () => {
                     imagen: info.message
                 });
                 fotoUnica = info.message;
+                console.log("PASO LA FOTO AAAA")
             }
         } catch (error) {
             console.error("Error al obtener la foto:", error);
@@ -361,7 +371,7 @@ const RechazaPerros2 = async (valor) => {
             multiline
             rows={4}
             value={descripcion}
-            onChange={(e) => setDescripcion(e.target.value)}
+            onChange={(e) => setdescripcion(e.target.value)}
         />
     </CardContent>
     <CardActions>
