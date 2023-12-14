@@ -12,7 +12,7 @@ import {
 import axios from "axios";
 
 
-const AceptadosRechazados = ({ perroId }) => {
+const AceptadosRechazados = () => {
     const [aceptados, setAceptados] = useState([]);
     const [rechazados, setRechazados] = useState([]);
 
@@ -20,7 +20,7 @@ const AceptadosRechazados = ({ perroId }) => {
         const fetchAceptados = async () => {
             try {
             const response = await axios.get(
-                `http://localhost:8000/api/perros/aceptados/${perroId}`
+                `http://localhost:8000/api/perros/aceptados/${101}`
             );
             setAceptados(response.data);
             } catch (error) {
@@ -31,7 +31,7 @@ const AceptadosRechazados = ({ perroId }) => {
         const fetchRechazados = async () => {
             try {
             const response = await axios.get(
-                `http://localhost:8000/api/perros/rechazados/${perroId}`
+                `http://localhost:8000/api/perros/rechazados/${101}`
             );
             setRechazados(response.data);
             } catch (error) {
@@ -39,11 +39,11 @@ const AceptadosRechazados = ({ perroId }) => {
             }
         };
 
-        if (perroId) {
+        //if (perroId) {
             fetchAceptados();
             fetchRechazados();
-        }
-    }, [perroId]);
+        //}
+    }, []);
 
 return (
     <div>

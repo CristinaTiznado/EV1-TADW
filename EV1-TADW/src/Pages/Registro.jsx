@@ -57,7 +57,7 @@ export default function Inicio() {
     const [perroSeleccionado, setPerroSeleccionado] = useState(null);
 
     const [perros, setPerros] = useState([]);
-
+    
 
     const handleNombreClick = (perro) => {
         setPerroSeleccionado(perro);
@@ -134,6 +134,11 @@ const RegistrarPerro = async (nombre, descripcion) => {
 
 
 const RegistrarPerro2 = async (nombre, descripcion) => {
+
+    console.log("FOTO: ", foto)
+    console.log("nombre: ", nombre)
+    console.log("descripcion: ", descripcion)
+
     try {
     const response = await axios.post(
         "http://localhost:8000/api/perros",
@@ -141,7 +146,8 @@ const RegistrarPerro2 = async (nombre, descripcion) => {
         nombre: nombre,
         url_foto: foto,
         descripcion: descripcion,
-        }
+        },
+        { withCredentials: false }
         );
 
         if (response.status === 200) {
@@ -150,7 +156,7 @@ const RegistrarPerro2 = async (nombre, descripcion) => {
             console.error("Error al registrar el perro");
         }
         } catch (error) {
-        console.error("Error en la solicitud:", error);
+        console.error("Error en la solicitudAAAAA:", error);
         }
     };
 
@@ -218,15 +224,17 @@ const AceptaPerros2 = async (valor) => {
 const RechazaPerros2 = async (valor) => {
     try {
         const response = await axios.post(
-        `http://localhost:8000/api/interaccion/preferencia${valor.id}`,
+        `http://localhost:8000/api/interaccion/preferencia`,
         {
-            perro_id: valor.id,
-            perro_candidato_id: valor.candidatoId,
+            perro_id: "101",
+            perro_candidato_id: valor.id,
             preferencia: "r",
-        }
+        },
         );
 
-        if (response.status === 200) {
+        console.log(response.status)
+
+        if (response.status === 201) {
             console.log("Perro rechazado exitosamente");
         Swal.fire({
             title: "OK",
@@ -323,7 +331,10 @@ const RechazaPerros2 = async (valor) => {
     useEffect(() => {
         axios.get('http://localhost:8000/api/perros/todos')
           .then(response => {
+            {console.log("ANTES DE LLAMAR A LOS PERROS")}
+            {console.log(response.status)}
             setPerros(response.data);
+            {"SE SUPONE YA SE SETEARON"}
           })
           .catch(error => {
             console.error('Error al obtener perros:', error);
