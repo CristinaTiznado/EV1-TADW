@@ -11,7 +11,8 @@ import {
 } from "@mui/material";
 import axios from "axios";
 
-
+/*ESTIMADO PROFESOR: Debido a que no tuvimos tiempo para terminar el codigo el 101 que verá a continuacion
+es debido a que creamos un perro para experimentar para probar si los botones estaban correctos. Sin embargo no tuvimos tiempo para implementarlos en el front.*/
 const AceptadosRechazados = () => {
     const [aceptados, setAceptados] = useState([]);
     const [rechazados, setRechazados] = useState([]);
