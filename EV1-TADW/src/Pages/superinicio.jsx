@@ -1,19 +1,8 @@
 import React from "react"
 import {
     Button,
-    Card,
-    CardActions,
-    CardContent,
-    Divider,
     Grid,
-    LinearProgress,
     Typography,
-    TextField,
-    List,
-    ListItem,
-    ListItemAvatar,
-    Avatar,
-    ListItemText,
     Dialog,
     DialogActions,
     DialogContent,
@@ -22,48 +11,12 @@ import {
 } from "@mui/material"
 
 import { useEffect, useState } from "react"
-import DogCard from "../Components/DogCard"
-import { loremIpsum } from 'lorem-ipsum'
-import { styled } from '@mui/material/styles';
-import Collapse from '@mui/material/Collapse'
-import IconButton from '@mui/material/IconButton'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import FotoCard from "../Components/FotoCard"
 
-
-import Swal from 'sweetalert2';
 import axios from "axios";
 
 
-const ExpandMore = styled((props) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-    }),
-}));
-
 export default function Inicio() {
-    const [dog, setDog] = useState({ nombre: '', imagen: '', descripcion: '' })
-    const [ListaAceptados, setListaAceptados] = useState([])
-    const [ListaRechazados, setListaRechazados] = useState([])
-    const [expandedIndexAceptados, setExpandedIndexAceptados] = useState(null)
-    const [expandedIndexRechazados, setExpandedIndexRechazados] = useState(null)
-    const [isLoading, setIsLoading] = useState(false)
-    const [LoadingMessage, setLoadingMessage] = useState("")
-
-    const [foto, setFoto] = useState({imagen: ''})
-    const [nombre, setNombre] = useState({nombre: ''})
-    const [descripcion, setdescripcion] = useState({descripcion: ''})
-    const [perroSeleccionado, setPerroSeleccionado] = useState(null);
-
-    const [perros, setPerros] = useState([]);
-
-    const [perroCandidato, setPerroCandidato] = useState(null);
-
+   const [perros, setPerros] = useState([]);
 
     const [openDialog, setOpenDialog] = useState(true);
 
@@ -81,33 +34,6 @@ export default function Inicio() {
       }
       setOpenDialog(false); // Cerrar el diálogo después de manejar la acción
     };
-
-
-    const handleNombreClick = (perro) => {
-        setPerroSeleccionado(perro);
-    };
-
-
-    const handleExpandClickAceptados = (index) => {
-        if (expandedIndexAceptados === index) {
-            setExpandedIndexAceptados(null);
-        } else {
-            setExpandedIndexAceptados(index);
-            setExpandedIndexRechazados(null)
-        }
-    };
-
-    const handleExpandClickRechazados = (index) => {
-        if (expandedIndexRechazados === index) {
-            setExpandedIndexRechazados(null);
-        } else {
-            setExpandedIndexRechazados(index);
-            setExpandedIndexAceptados(null)
-        }
-    };
-
-/*TAREA 3*/
-
 
 
 const obtenerFotoUnica = async () => {
@@ -138,51 +64,6 @@ const obtenerFotoUnica = async () => {
     setIsLoading(false);
     setLoadingMessage("");
 };
-
-const RegistrarPerro2 = async (nombre, descripcion) => {
-
-    console.log("FOTO: ", foto)
-    console.log("nombre: ", nombre)
-    console.log("descripcion: ", descripcion)
-
-    try {
-    const response = await axios.post(
-        "http://localhost:8000/api/perros",
-        {
-        nombre: nombre,
-        url_foto: foto,
-        descripcion: descripcion,
-        },
-        { withCredentials: false }
-        );
-
-        if (response.status === 200) {
-            console.log("Perro registrado exitosamente");
-        } else {
-            console.error("Error al registrar el perro");
-        }
-        } catch (error) {
-        console.error("Error en la solicitudAAAAA:", error);
-        }
-    };
-
-{/*ESTA ES LA PARTE QUE MUESTRA LOS PERROS CREADOS*/}
-const ListaPerros = () => {
-    return (
-
-    <List>
-        {perros.map((perro, index) => (
-            <ListItem key={index}>
-                <ListItemAvatar>
-                <Avatar alt={perro.nombre} src={perro.url_foto} />
-            </ListItemAvatar>
-            <ListItemText primary={perro.nombre} secondary={perro.descripcion} onClick={() => handleNombreClick(perro)}/>
-        </ListItem>
-        ))}
-    </List>
-    );
-};
-
 
     useEffect(() => {
         obtenerFotoUnica()

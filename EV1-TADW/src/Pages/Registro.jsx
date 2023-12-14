@@ -4,87 +4,29 @@ import {
     Card,
     CardActions,
     CardContent,
-    Divider,
     Grid,
     LinearProgress,
     Typography,
     TextField,
-    List,
-    ListItem,
-    ListItemAvatar,
-    Avatar,
-    ListItemText
 } from "@mui/material"
 
 import { useEffect, useState } from "react"
-import DogCard from "../Components/DogCard"
 import { loremIpsum } from 'lorem-ipsum'
-import { styled } from '@mui/material/styles';
-import Collapse from '@mui/material/Collapse'
-import IconButton from '@mui/material/IconButton'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import FotoCard from "../Components/FotoCard"
 
-
-
-import Swal from 'sweetalert2';
 import axios from "axios";
 
 
-const ExpandMore = styled((props) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-    }),
-}));
-
 export default function Inicio() {
-    const [dog, setDog] = useState({ nombre: '', imagen: '', descripcion: '' })
-    const [ListaAceptados, setListaAceptados] = useState([])
-    const [ListaRechazados, setListaRechazados] = useState([])
-    const [expandedIndexAceptados, setExpandedIndexAceptados] = useState(null)
-    const [expandedIndexRechazados, setExpandedIndexRechazados] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     const [LoadingMessage, setLoadingMessage] = useState("")
 
     const [foto, setFoto] = useState({imagen: ''})
     const [nombre, setNombre] = useState({nombre: ''})
     const [descripcion, setdescripcion] = useState({descripcion: ''})
-    const [perroSeleccionado, setPerroSeleccionado] = useState(null);
-
-    const [perros, setPerros] = useState([]);
     
-
-    const handleNombreClick = (perro) => {
-        setPerroSeleccionado(perro);
-    };
-
-
-    const handleExpandClickAceptados = (index) => {
-        if (expandedIndexAceptados === index) {
-            setExpandedIndexAceptados(null);
-        } else {
-            setExpandedIndexAceptados(index);
-            setExpandedIndexRechazados(null)
-        }
-    };
-
-    const handleExpandClickRechazados = (index) => {
-        if (expandedIndexRechazados === index) {
-            setExpandedIndexRechazados(null);
-        } else {
-            setExpandedIndexRechazados(index);
-            setExpandedIndexAceptados(null)
-        }
-    };
-
-/*TAREA 3*/
-
-
+    const [perros, setPerros] = useState([]);
+   
 
 const obtenerFotoUnica = async () => {
     setIsLoading(true);
@@ -115,23 +57,6 @@ const obtenerFotoUnica = async () => {
     setLoadingMessage("");
 };
 
-const RegistrarPerro = async (nombre, descripcion) => {
-    try {
-
-            setDog({
-                nombre: nombre,
-                imagen: foto,
-                descripcion: descripcion,
-            })
-
-    } catch (error) {
-
-    } finally {
-        setNombre("")
-        setdescripcion("")
-    }
-}
-
 
 const RegistrarPerro2 = async (nombre, descripcion) => {
 
@@ -160,103 +85,6 @@ const RegistrarPerro2 = async (nombre, descripcion) => {
         }
     };
 
-{/*ESTA ES LA PARTE QUE MUESTRA LOS PERROS CREADOS*/}
-const ListaPerros = () => {
-    return (
-    <List>
-        {perros.map((perro, index) => (
-            <ListItem key={index}>
-                <ListItemAvatar>
-                <Avatar alt={perro.nombre} src={perro.url_foto} />
-            </ListItemAvatar>
-            <ListItemText primary={perro.nombre} secondary={perro.descripcion} onClick={() => handleNombreClick(perro)}/>
-        </ListItem>
-        ))}
-    </List>
-    );
-};
-
-
-const AceptaPerros2 = async (valor) => {
-    try {
-        const response = await axios.post(
-        `http://localhost:8000/api/interaccion/preferencia${valor.id}`,
-        {
-            perro_id: valor.id,
-            perro_candidato_id: valor.candidatoId,
-            preferencia: "a",
-        }
-        );
-
-        if (response.status === 200) {
-            const data = response.data;
-            if (data.message === "¡Hay match!") {
-            Swal.fire({
-                title: "¡Hay match!",
-                text: "¡Felicidades, has hecho match con este perro!",
-                icon: "success",
-            });
-            } else {
-            Swal.fire({
-                title: "OK",
-                text: "Perro aceptado exitosamente",
-                icon: "success",
-            });
-            }
-        } else {
-        Swal.fire({
-            title: "Error",
-            text: "Error al aceptar el perro",
-            icon: "error",
-            });
-        }
-        } catch (error) {
-        Swal.fire({
-            title: "Error",
-            text: "Error en la solicitud",
-            icon: "error",
-        });
-        console.error("Error en la solicitud:", error);
-        }
-    };
-
-
-const RechazaPerros2 = async (valor) => {
-    try {
-        const response = await axios.post(
-        `http://localhost:8000/api/interaccion/preferencia`,
-        {
-            perro_id: "101",
-            perro_candidato_id: valor.id,
-            preferencia: "r",
-        },
-        );
-
-        console.log(response.status)
-
-        if (response.status === 201) {
-            console.log("Perro rechazado exitosamente");
-        Swal.fire({
-            title: "OK",
-            text: "Perro rechazado exitosamente",
-            icon: "success",
-        });
-        } else {
-        Swal.fire({
-            title: "Error",
-            text: "Error al rechazar el perro",
-            icon: "error",
-            });
-        }
-        } catch (error) {
-        Swal.fire({
-            title: "Error",
-            text: "Error en la solicitud",
-            icon: "error",
-        });
-        console.error("Error en la solicitud:", error);
-        }
-    };
 
 //AQUI TERMINA LO NUEVO
     const getDogs = async () => {
@@ -292,36 +120,6 @@ const RechazaPerros2 = async (valor) => {
         return nombreRandom;
     }
 
-    const ArrepentidoDeRechazar = (valor) => {
-        if (!ListaAceptados.includes(valor)) {
-            setListaAceptados((ListaAceptados) => [valor, ...ListaAceptados]);
-            let quitar = ListaRechazados.filter((item) => item !== valor);
-            setListaRechazados(quitar);
-            setExpandedIndexRechazados(null)
-        }
-    }
-
-    const ArrepentidoDeAceptarAmigaTeEntiendo = (valor) => {
-        console.log(!ListaRechazados.includes(valor))
-        if (!ListaRechazados.includes(valor)) {
-            setListaRechazados((ListaRechazados) => [valor, ...ListaRechazados]);
-            let quitar = ListaAceptados.filter((item) => item !== valor);
-            setListaAceptados(quitar);
-            setExpandedIndexAceptados(null)
-        }
-    }
-
-    const AceptaPerros = (valor) => {
-        setListaAceptados((cualquiercosa) => [valor, ...cualquiercosa]);
-        console.log(ListaAceptados)
-        getDogs()
-    }
-
-    const RechazaPerros = (valor) => {
-        setListaRechazados((ListaRechazados) => [valor, ...ListaRechazados]);
-        console.log(ListaRechazados)
-        getDogs()
-    }
 
     useEffect(() => {
         getDogs()
@@ -371,6 +169,7 @@ const RechazaPerros2 = async (valor) => {
             variant="outlined"
             margin="normal"
             fullWidth
+            placeholder="Ingrese el nombre"
             value={nombre}
             onChange={(e) => setNombre(e.target.value)}
         />
@@ -381,6 +180,7 @@ const RechazaPerros2 = async (valor) => {
             fullWidth
             multiline
             rows={4}
+            placeholder="Ingrese la descripción del perro"
             value={descripcion}
             onChange={(e) => setdescripcion(e.target.value)}
         />

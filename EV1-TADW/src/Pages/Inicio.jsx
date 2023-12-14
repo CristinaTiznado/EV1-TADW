@@ -3,8 +3,6 @@ import {
     Button,
     Card,
     CardActions,
-    CardContent,
-    Divider,
     Grid,
     LinearProgress,
     Typography
@@ -13,9 +11,7 @@ import { useEffect, useState } from "react"
 import DogCard from "../Components/DogCard"
 import { loremIpsum } from 'lorem-ipsum'
 import { styled } from '@mui/material/styles';
-import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -32,33 +28,8 @@ export default function Inicio() {
     const [dog, setDog] = useState({ nombre: '', imagen: '', descripcion: '' })
     const [ListaAceptados, setListaAceptados] = useState([])
     const [ListaRechazados, setListaRechazados] = useState([])
-    const [expandedIndexAceptados, setExpandedIndexAceptados] = useState(null)
-    const [expandedIndexRechazados, setExpandedIndexRechazados] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     const [LoadingMessage, setLoadingMessage] = useState("")
-
-    const [foto, setFoto] = useState({imagen: ''})
-
-    const handleExpandClickAceptados = (index) => {
-        if (expandedIndexAceptados === index) {
-            setExpandedIndexAceptados(null);
-        } else {
-            setExpandedIndexAceptados(index);
-            setExpandedIndexRechazados(null)
-        }
-    };
-
-    const handleExpandClickRechazados = (index) => {
-        if (expandedIndexRechazados === index) {
-            setExpandedIndexRechazados(null);
-        } else {
-            setExpandedIndexRechazados(index);
-            setExpandedIndexAceptados(null)
-        }
-    };
-
-/*TAREA 3*/
-
 
 
 const obtenerFotoUnica = async () => {
@@ -122,25 +93,6 @@ const obtenerFotoUnica = async () => {
             nombreRandom += characters.charAt(randomIndex);
         }
         return nombreRandom;
-    }
-
-    const ArrepentidoDeRechazar = (valor) => {
-        if (!ListaAceptados.includes(valor)) {
-            setListaAceptados((ListaAceptados) => [valor, ...ListaAceptados]);
-            let quitar = ListaRechazados.filter((item) => item !== valor);
-            setListaRechazados(quitar);
-            setExpandedIndexRechazados(null)
-        }
-    }
-
-    const ArrepentidoDeAceptarAmigaTeEntiendo = (valor) => {
-        console.log(!ListaRechazados.includes(valor))
-        if (!ListaRechazados.includes(valor)) {
-            setListaRechazados((ListaRechazados) => [valor, ...ListaRechazados]);
-            let quitar = ListaAceptados.filter((item) => item !== valor);
-            setListaAceptados(quitar);
-            setExpandedIndexAceptados(null)
-        }
     }
 
     const AceptaPerros = (valor) => {

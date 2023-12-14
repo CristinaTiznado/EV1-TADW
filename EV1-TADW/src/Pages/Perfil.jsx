@@ -47,18 +47,12 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function Inicio() {
-    const [dog, setDog] = useState({ nombre: '', imagen: '', descripcion: '' })
-    const [ListaAceptados, setListaAceptados] = useState([])
-    const [ListaRechazados, setListaRechazados] = useState([])
     const [expandedIndexAceptados, setExpandedIndexAceptados] = useState(null)
     const [expandedIndexRechazados, setExpandedIndexRechazados] = useState(null)
     const [isLoading, setIsLoading] = useState(false)
     const [LoadingMessage, setLoadingMessage] = useState("")
 
     const [foto, setFoto] = useState({imagen: ''})
-    const [nombre, setNombre] = useState({nombre: ''})
-    const [descripcion, setdescripcion] = useState({descripcion: ''})
-    const [perroSeleccionado, setPerroSeleccionado] = useState(null);
 
     const [perros, setPerros] = useState([]);
 
@@ -67,50 +61,9 @@ export default function Inicio() {
 
     const [openDialog, setOpenDialog] = useState(true);
 
-    // Función para cerrar el diálogo
-    const handleCloseDialog = () => {
-      setOpenDialog(false);
-    };
-  
-    // Función para manejar las acciones cuando se hacen clic en los botones del diálogo
-    const handleDialogButtonClick = (action) => {
-      if (action === "button1") {
-        // Acción para el Botón 1
-      } else if (action === "button2") {
-        // Acción para el Botón 2
-      }
-      setOpenDialog(false); // Cerrar el diálogo después de manejar la acción
-    };
-
-
-    const handleNombreClick = (perro) => {
-        setPerroSeleccionado(perro);
-    };
-
     const handle2 = (perro) => {
         setPerroInteresado(perro);
     };
-
-
-    const handleExpandClickAceptados = (index) => {
-        if (expandedIndexAceptados === index) {
-            setExpandedIndexAceptados(null);
-        } else {
-            setExpandedIndexAceptados(index);
-            setExpandedIndexRechazados(null)
-        }
-    };
-
-    const handleExpandClickRechazados = (index) => {
-        if (expandedIndexRechazados === index) {
-            setExpandedIndexRechazados(null);
-        } else {
-            setExpandedIndexRechazados(index);
-            setExpandedIndexAceptados(null)
-        }
-    };
-
-/*TAREA 3*/
 
 
 
@@ -141,50 +94,6 @@ const obtenerFotoUnica = async () => {
 
     setIsLoading(false);
     setLoadingMessage("");
-};
-
-const RegistrarPerro2 = async (nombre, descripcion) => {
-
-    console.log("FOTO: ", foto)
-    console.log("nombre: ", nombre)
-    console.log("descripcion: ", descripcion)
-
-    try {
-    const response = await axios.post(
-        "http://localhost:8000/api/perros",
-        {
-        nombre: nombre,
-        url_foto: foto,
-        descripcion: descripcion,
-        },
-        { withCredentials: false }
-        );
-
-        if (response.status === 200) {
-            console.log("Perro registrado exitosamente");
-        } else {
-            console.error("Error al registrar el perro");
-        }
-        } catch (error) {
-        console.error("Error en la solicitudAAAAA:", error);
-        }
-    };
-
-{/*ESTA ES LA PARTE QUE MUESTRA LOS PERROS CREADOS*/}
-const ListaPerros = () => {
-    return (
-
-    <List>
-        {perros.map((perro, index) => (
-            <ListItem key={index}>
-                <ListItemAvatar>
-                <Avatar alt={perro.nombre} src={perro.url_foto} />
-            </ListItemAvatar>
-            <ListItemText primary={perro.nombre} secondary={perro.descripcion} onClick={() => handle2(perro)}/>
-        </ListItem>
-        ))}
-    </List>
-    );
 };
 
 
