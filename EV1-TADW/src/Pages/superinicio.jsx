@@ -223,92 +223,20 @@ const ListaPerros = () => {
       </Dialog>
 
 
-            <Grid container spacing={2} direction="row">
+            <Grid container spacing={2} direction="row" justifyContent="center">
                 <Grid item md={4} sm={12}>
                     <Typography color={"black"} variant="h5" align="center">
                         T I N D E R
                     </Typography>
-                    {isLoading && <LinearProgress />}
-                    {LoadingMessage && <p>{LoadingMessage}</p>}
 
 
 
 
-<Card
-    sx={{
-        transition: "0.2s",
-        "&:hover": {
-            transform: "scale(1.02)",
-        },
-        borderRadius: '10px',
-        border: '1px solid #000',
-    }}
->
-    <FotoCard props={foto} />
-    <CardContent>
-        <TextField
-            label="Nombre"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
-        />
-        <TextField
-            label="Descripción"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            multiline
-            rows={4}
-            value={descripcion}
-            onChange={(e) => setdescripcion(e.target.value)}
-        />
-    </CardContent>
-    <CardActions>
-        <Button variant="contained" onClick={() => obtenerFotoUnica()} disabled={isLoading}>
-            OTRA FOTO
-        </Button>
-        <Button variant="contained" onClick={() => RegistrarPerro2(nombre, descripcion)} disabled={isLoading}>
-            REGISTRAR PERRO
-        </Button>
-    </CardActions>
-</Card>
+
 
 {/*ESTA ES LA PARTE QUE MUESTRA EL PERRO Y LOS BOTONES*/}
 
 
-<Grid item md={4} sm={12}>
-    <Typography color={"black"} variant="h5" align="center">
-        L I S T A   D E   P E R R O S
-    </Typography>
-    <ListaPerros perros={perros} />
-</Grid>
-
-
-{perroSeleccionado && (
-    <Card>
-        <DogCard props={perroSeleccionado} tipo="principal" />
-        <CardActions>
-        <Button variant="contained" onClick={() => AceptaPerros2(perroSeleccionado)} disabled={isLoading}>
-            ACEPTAR
-        </Button>
-        <Button color="error" onClick={() => RechazaPerros2(perroSeleccionado)} disabled={isLoading}>
-            RECHAZAR
-        </Button>
-
-    </CardActions>
-    </Card>
-)}
-
-
-<Button
-    variant="contained"
-    onClick={() => history.push(`/aceptados-rechazados/${perroSeleccionado.id}`)}
-    disabled={isLoading}
->
-    Ver Aceptados y Rechazados
-</Button>
 
 
 

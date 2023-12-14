@@ -205,24 +205,6 @@ const obtenerFotoUnica = async () => {
                                     }}
                                 >
                                     <DogCard props={cosa} tipo="secundario" />
-                                    <CardActions disableSpacing>
-                                        <Button color="error" onClick={() => ArrepentidoDeAceptarAmigaTeEntiendo(cosa)} >RECHAZAR</Button>
-                                        <ExpandMore
-                                            expand={expandedIndexAceptados === index}
-                                            onClick={() => handleExpandClickAceptados(index)}
-                                            aria-expanded={expandedIndexAceptados === index}
-                                            aria-label="show more"
-                                        >
-                                            <ExpandMoreIcon />
-                                        </ExpandMore>
-                                    </CardActions>
-                                    <Collapse in={expandedIndexAceptados === index} timeout="auto" unmountOnExit>
-                                        <CardContent>
-                                            <Typography>
-                                                {cosa.descripcion}
-                                            </Typography>
-                                        </CardContent>
-                                    </Collapse>
                                 </Card>
                             </Grid>
                         ))}
@@ -243,24 +225,6 @@ const obtenerFotoUnica = async () => {
                                     }}
                                 >
                                     <DogCard props={cosa} tipo="terciario" />
-                                    <CardActions disableSpacing>
-                                        <Button variant="contained" onClick={() => ArrepentidoDeRechazar(cosa)} >ACEPTAR</Button>
-                                        <ExpandMore
-                                            expand={expandedIndexRechazados === index}
-                                            onClick={() => handleExpandClickRechazados(index)}
-                                            aria-expanded={expandedIndexRechazados === index}
-                                            aria-label="show more"
-                                        >
-                                            <ExpandMoreIcon />
-                                        </ExpandMore>
-                                    </CardActions>
-                                    <Collapse in={expandedIndexRechazados === index} timeout="auto" unmountOnExit>
-                                        <CardContent>
-                                            <Typography>
-                                                {cosa.descripcion}
-                                            </Typography>
-                                        </CardContent>
-                                    </Collapse>
                                 </Card>
                             </Grid>
                         ))}

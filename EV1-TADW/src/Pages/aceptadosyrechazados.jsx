@@ -46,7 +46,7 @@ const AceptadosRechazados = () => {
     }, []);
 
 return (
-    <div>
+    <>
     <Typography variant="h5" align="center">
         Aceptados y Rechazados del Perro
     </Typography>
@@ -70,7 +70,7 @@ return (
             </List>
         </CardContent>
     </Card>
-    </div>
+    </>
 );
 };
 

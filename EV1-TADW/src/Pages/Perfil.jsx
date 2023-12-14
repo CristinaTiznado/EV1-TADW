@@ -205,57 +205,57 @@ const ListaPerros = () => {
           });
       }, []);
 
-    return (
+      return (
         <>
-
-{/* Diálogo para mostrar dos botones */}
-
-
-
-            <Grid container spacing={2} direction="row">
-                <Grid item md={4} sm={12}>
-                    <Typography color={"black"} variant="h5" align="center">
-                        T I N D E R
-                    </Typography>
-                    {isLoading && <LinearProgress />}
-                    {LoadingMessage && <p>{LoadingMessage}</p>}
-
-
-{/*ESTA ES LA PARTE QUE MUESTRA EL PERRO Y LOS BOTONES*/}
-
-<Grid item md={4} sm={12}>
-    <Typography color={"black"} variant="h5" align="center">
-        L I S T A   D E   P E R R O S
-    </Typography>
-    <ListaPerros perros={perros} />
-</Grid>
-
-
-{perroInteresado && (
-    <Card>
-        <DogCard props={perroInteresado} tipo="principal" />
-        <CardActions>
-        <Button variant="contained" >
-            ELEGIR PERRO
-        </Button>
-    </CardActions>
-    </Card>
-)}
-
-{/** 
-<Button
-    variant="contained"
-    onClick={() => history.push(`/aceptados-rechazados/${perroInteresado.id}`)}
-    disabled={isLoading}
->
-</Button>
-*/}
-
-
-                </Grid>
-
+        <Typography color={"black"} variant="h4" align="center">
+                T I N D E R
+              </Typography><br></br>
+          <Grid container spacing={2} direction="row">
+            {/* Primera Columna - Lista de Perros */}
+            
+            <Grid item md={4} sm={12} sx={{ overflowY: "auto", maxHeight: "calc(100vh - 64px)" }}>
+            <Typography color={"black"} variant="h5" align="center">
+                L I S T A   D E   P E R R O S
+            </Typography><br></br>
+              {isLoading && <LinearProgress />}
+              {LoadingMessage && <p>{LoadingMessage}</p>}
+    
+              <List>
+                {perros.map((perro, index) => (
+                  <ListItem key={index}>
+                    <ListItemAvatar>
+                      <Avatar alt={perro.nombre} src={perro.url_foto} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={perro.nombre}
+                      secondary={perro.descripcion}
+                      onClick={() => handle2(perro)}
+                    />
+                  </ListItem>
+                ))}
+              </List>
             </Grid>
+    
+            {/* Segunda Columna - Información del Perro Interesado */}
+            <Grid item md={8} sm={12}>
+            <Typography color={"black"} variant="h5" align="center">
+                D E T A L L E
+            </Typography><br></br>
+              {perroInteresado && (
 
+                <Card>
+                    <DogCard props={perroInteresado} tipo="principal" />
+                  <Button
+                    variant="contained"
+                    onClick={() => history.push(`/aceptados-rechazados/${perroInteresado.id}`)}
+                    disabled={isLoading}
+                  >
+                    Ver Detalles
+                  </Button>
+                </Card>
+              )}
+            </Grid>
+          </Grid>
         </>
-    )
-}
+      );
+    }
