@@ -150,7 +150,7 @@ const RegistrarPerro2 = async (nombre, descripcion) => {
         "http://localhost:8000/api/perros",
         {
         nombre: nombre,
-        url_foto: foto,
+        url_foto: foto.imagen,
         descripcion: descripcion,
         },
         { withCredentials: false }
